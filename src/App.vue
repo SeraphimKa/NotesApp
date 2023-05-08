@@ -11,6 +11,9 @@ function getRandomColor() {
   return "hsl(" + Math.random() * 360 + ", 100%, 75%)";
 }
 
+function setFontSize(text) {
+  return text.length <= 20 ? 40 : 20;
+}
 
 const addNote = () => {
   if (newNote.value.length < 10) {
@@ -21,6 +24,7 @@ const addNote = () => {
     text: newNote.value,
     date: new Date(),
     shadowColor: getRandomColor(),
+    fontSize: setFontSize(newNote.value)
   })
   showModal.value = false
   newNote.value = ""
@@ -47,12 +51,10 @@ const addNote = () => {
         <button class="add-btn" @click="showModal = true">+</button>
       </header>
       <div class="cards-container">
-        <div class="card" v-for="note in notes" :key="notes.id"
-          :style="{ boxShadow: `inset 0 0 10px 5px  ${note.shadowColor}` }" :id="note.id">
-          <p class="main-text">
-            <hr />
+        <div class="card" v-for="note in   notes  " :key="notes.id"
+          :style="{ boxShadow: `inset 0 0 10px 5px  ${note.shadowColor}`, fontSize: `${note.fontSize}px` }" :id="note.id">
+          <p class="main-text" :style="{}">
             {{ note.text }}
-            <hr />
           </p>
           <p class="date">{{ note.date.toLocaleDateString("en-US") }}</p>
         </div>
@@ -119,6 +121,7 @@ h1 {
   justify-content: space-between;
   margin-right: 20px;
   margin-bottom: 20px;
+  word-wrap: break-word;
 }
 
 .newCard {
@@ -126,19 +129,16 @@ h1 {
 }
 
 .main-text {
-
   padding: 2px;
-  word-wrap: break-word;
+
 }
 
 .date {
   font-size: 12px;
   text-align: end;
   padding: 2px;
-  color: #8b8b8b;
-  font-weight: 500;
-  text-shadow: 1px 1px 1px rgb(63, 63, 63);
-  background-color: rgba(0, 0, 0, 0.205);
+  color: #696969;
+  text-shadow: 1px 1px 1px rgb(17, 17, 17);
 }
 
 .cards-container {
@@ -186,5 +186,17 @@ h1 {
   cursor: pointer;
   margin-top: 10px;
   border-radius: 4px;
+  outline: rgb(80, 160, 72) solid 2px;
+}
+
+.modal .confirm-button:hover {
+  transition: all 0.2s;
+  background-color: #009414ee;
+
+}
+
+.modal .confirm-button:active {
+  background-color: #00941499;
+  transform: scale(0.9);
 }
 </style>
